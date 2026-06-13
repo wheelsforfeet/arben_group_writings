@@ -461,6 +461,22 @@
   </footer>
 
   <script>
+    // Randomize background shapes on every load (structured randomness).
+    // Positions + rotation are random; widths stay controlled by CSS classes.
+    (function () {
+      const shapes = document.querySelectorAll('.bg-shape');
+      const zone = 100 / shapes.length; // vertical band per shape, prevents clumping
+      shapes.forEach((shape, i) => {
+        const top = (i * zone) + (Math.random() * zone * 0.6);   // within its band
+        const left = (Math.random() * 95) - 10;                  // -10% .. 85%
+        const rotation = Math.random() > 0.5 ? 0 : 180;          // 0 or 180
+        shape.style.top = top + '%';
+        shape.style.left = left + '%';
+        shape.style.right = 'auto';
+        shape.style.transform = 'rotate(' + rotation + 'deg) translateZ(0)';
+      });
+    })();
+
     // Header scroll effect
     window.addEventListener('scroll', () => {
       const header = document.getElementById('header');
