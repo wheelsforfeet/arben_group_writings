@@ -15,6 +15,15 @@
     rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <style>
+    /* Decorative shape layer — clipped so off-page shapes don't add scroll */
+    .bg-decor {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      z-index: 0;
+      pointer-events: none;
+    }
+
     /* Floating keystone background shapes (ported from main site) */
     .bg-shape {
       position: absolute;
@@ -283,18 +292,20 @@
 <body>
 
   <!-- Floating keystone shapes (decorative, behind content) -->
-  <img src="assets/unfilled-keystone-blue.png" class="bg-shape shape-1" alt="" aria-hidden="true">
-  <img src="assets/unfilled-keystone-yellow.png" class="bg-shape shape-2" alt="" aria-hidden="true">
-  <img src="assets/filled-keystone-blue.png" class="bg-shape shape-3" alt="" aria-hidden="true">
-  <img src="assets/filled-keystone-yellow.png" class="bg-shape shape-4" alt="" aria-hidden="true">
-  <img src="assets/filled-keystone-yellow.png" class="bg-shape shape-5" alt="" aria-hidden="true">
-  <img src="assets/unfilled-keystone-blue.png" class="bg-shape shape-6" alt="" aria-hidden="true">
-  <img src="assets/filled-keystone-yellow.png" class="bg-shape shape-7" alt="" aria-hidden="true">
-  <img src="assets/filled-keystone-blue.png" class="bg-shape shape-8" alt="" aria-hidden="true">
-  <img src="assets/filled-keystone-blue.png" class="bg-shape shape-9" alt="" aria-hidden="true">
-  <img src="assets/unfilled-keystone-yellow.png" class="bg-shape shape-10" alt="" aria-hidden="true">
-  <img src="assets/unfilled-keystone-blue.png" class="bg-shape shape-11" alt="" aria-hidden="true">
-  <img src="assets/unfilled-keystone-blue.png" class="bg-shape shape-12" alt="" aria-hidden="true">
+  <div class="bg-decor" aria-hidden="true">
+    <img src="assets/unfilled-keystone-blue.png" class="bg-shape shape-1" alt="">
+    <img src="assets/unfilled-keystone-yellow.png" class="bg-shape shape-2" alt="">
+    <img src="assets/filled-keystone-blue.png" class="bg-shape shape-3" alt="">
+    <img src="assets/filled-keystone-yellow.png" class="bg-shape shape-4" alt="">
+    <img src="assets/filled-keystone-yellow.png" class="bg-shape shape-5" alt="">
+    <img src="assets/unfilled-keystone-blue.png" class="bg-shape shape-6" alt="">
+    <img src="assets/filled-keystone-yellow.png" class="bg-shape shape-7" alt="">
+    <img src="assets/filled-keystone-blue.png" class="bg-shape shape-8" alt="">
+    <img src="assets/filled-keystone-blue.png" class="bg-shape shape-9" alt="">
+    <img src="assets/unfilled-keystone-yellow.png" class="bg-shape shape-10" alt="">
+    <img src="assets/unfilled-keystone-blue.png" class="bg-shape shape-11" alt="">
+    <img src="assets/unfilled-keystone-blue.png" class="bg-shape shape-12" alt="">
+  </div>
 
   <!-- Minimal header — logo only, no sales nav -->
   <header id="header" class="scrolled">
