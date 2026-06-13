@@ -15,6 +15,57 @@
     rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <style>
+    /* Floating keystone background shapes (ported from main site) */
+    .bg-shape {
+      position: absolute;
+      z-index: 0;
+      opacity: 0.1;
+      pointer-events: none;
+      height: auto;
+      object-fit: contain;
+      backface-visibility: hidden;
+      transform: translateZ(0);
+      animation: float 20s ease-in-out infinite;
+      will-change: transform;
+    }
+
+    .bg-shape:nth-child(even) {
+      animation-duration: 25s;
+      animation-delay: -2s;
+    }
+
+    .bg-shape:nth-child(3n) {
+      animation-name: float-alt;
+      animation-duration: 30s;
+      animation-delay: -5s;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0); }
+      50% { transform: translate(25px, -35px); }
+    }
+
+    @keyframes float-alt {
+      0%, 100% { transform: translate(0, 0); }
+      50% { transform: translate(-20px, -25px); }
+    }
+
+    .shape-1  { top: -2%;  right: -5%; width: 31vw; max-width: 410px; transform: rotate(0deg); }
+    .shape-2  { top: 7%;   left: 8%;   width: 24vw; max-width: 335px; transform: rotate(180deg); }
+    .shape-3  { top: 15%;  right: -6%; width: 34vw; max-width: 430px; transform: rotate(0deg); }
+    .shape-4  { top: 24%;  left: 12%;  width: 22vw; max-width: 290px; transform: rotate(180deg); }
+    .shape-5  { top: 32%;  right: 15%; width: 19vw; max-width: 265px; transform: rotate(0deg); }
+    .shape-6  { top: 41%;  left: -4%;  width: 29vw; max-width: 385px; transform: rotate(180deg); }
+    .shape-7  { top: 50%;  right: -3%; width: 26vw; max-width: 360px; transform: rotate(0deg); }
+    .shape-8  { top: 59%;  left: 5%;   width: 24vw; max-width: 310px; transform: rotate(180deg); }
+    .shape-9  { top: 68%;  right: 10%; width: 22vw; max-width: 290px; transform: rotate(0deg); }
+    .shape-10 { top: 77%;  left: -6%;  width: 31vw; max-width: 410px; transform: rotate(180deg); }
+    .shape-11 { top: 86%;  right: -5%; width: 26vw; max-width: 335px; transform: rotate(0deg); }
+    .shape-12 { top: 95%;  left: 14%;  width: 24vw; max-width: 310px; transform: rotate(180deg); }
+
+    /* Keep content above the shapes */
+    #main-content, #header, footer { position: relative; z-index: 1; }
+
     /* Clean, publishing-first layout — no sales funnel. */
     .writing-hero {
       padding-top: var(--space-xxl);
@@ -229,6 +280,20 @@
 </head>
 
 <body>
+
+  <!-- Floating keystone shapes (decorative, behind content) -->
+  <img src="assets/unfilled-keystone-blue.png" class="bg-shape shape-1" alt="" aria-hidden="true">
+  <img src="assets/unfilled-keystone-yellow.png" class="bg-shape shape-2" alt="" aria-hidden="true">
+  <img src="assets/filled-keystone-blue.png" class="bg-shape shape-3" alt="" aria-hidden="true">
+  <img src="assets/filled-keystone-yellow.png" class="bg-shape shape-4" alt="" aria-hidden="true">
+  <img src="assets/filled-keystone-yellow.png" class="bg-shape shape-5" alt="" aria-hidden="true">
+  <img src="assets/unfilled-keystone-blue.png" class="bg-shape shape-6" alt="" aria-hidden="true">
+  <img src="assets/filled-keystone-yellow.png" class="bg-shape shape-7" alt="" aria-hidden="true">
+  <img src="assets/filled-keystone-blue.png" class="bg-shape shape-8" alt="" aria-hidden="true">
+  <img src="assets/filled-keystone-blue.png" class="bg-shape shape-9" alt="" aria-hidden="true">
+  <img src="assets/unfilled-keystone-yellow.png" class="bg-shape shape-10" alt="" aria-hidden="true">
+  <img src="assets/unfilled-keystone-blue.png" class="bg-shape shape-11" alt="" aria-hidden="true">
+  <img src="assets/unfilled-keystone-blue.png" class="bg-shape shape-12" alt="" aria-hidden="true">
 
   <!-- Minimal header — logo only, no sales nav -->
   <header id="header" class="scrolled">
