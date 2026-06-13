@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Arben Group | Writing</title>
+  <meta name="description"
+    content="Essays, field notes, and curated research on leadership, culture, and resilience — published by Ben Harris and Arden Smith." />
+  <link rel="icon" type="image/png" href="assets/LettermarkYellow.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Montserrat+Alternates:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Clean, publishing-first layout — no sales funnel. */
+    .writing-hero {
+      padding-top: var(--space-xxl);
+      padding-bottom: var(--space-md);
+      background: radial-gradient(circle at 85% 0, rgba(240, 190, 70, .12), transparent 50%),
+        linear-gradient(180deg, #fff 0%, var(--parchment) 100%);
+    }
+
+    .writing-hero .container {
+      max-width: 860px;
+    }
+
+    .writing-hero h1 {
+      color: var(--arben-blue);
+      margin-bottom: 1rem;
+    }
+
+    /* Author byline — names + emails near the top */
+    .bylines {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem 3rem;
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(64, 75, 105, 0.12);
+    }
+
+    .byline {
+      display: grid;
+      gap: 0.15rem;
+    }
+
+    .byline .name {
+      font-weight: 700;
+      color: var(--arben-blue);
+      font-size: 1.05rem;
+    }
+
+    .byline .role {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .byline a {
+      color: var(--arben-blue);
+      font-size: 0.95rem;
+    }
+
+    .byline a:hover {
+      color: var(--arben-gold);
+    }
+
+    /* Filter bar (reused from insights, tidied) */
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .75rem;
+      align-items: center;
+      background: var(--surface-white);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      border-radius: 18px;
+      padding: .9rem 1rem;
+      box-shadow: var(--glass-shadow);
+      margin-top: var(--space-md);
+    }
+
+    .tabs {
+      display: flex;
+      gap: .5rem;
+      background: rgba(64, 75, 105, 0.05);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      border-radius: 999px;
+      padding: .35rem;
+    }
+
+    .tab {
+      padding: .45rem .9rem;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      font-family: var(--font-sans);
+      font-weight: 700;
+      background: transparent;
+      color: var(--text-main);
+      cursor: pointer;
+      transition: all .3s ease;
+    }
+
+    .tab.active {
+      background: var(--arben-blue);
+      color: #fff;
+      box-shadow: 0 8px 16px rgba(64, 75, 105, 0.2);
+    }
+
+    .search {
+      display: flex;
+      align-items: center;
+      gap: .55rem;
+      background: #fff;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      border-radius: 12px;
+      padding: .65rem .9rem;
+      flex: 1 1 240px;
+      min-width: 220px;
+    }
+
+    .search input {
+      border: none;
+      outline: none;
+      font: inherit;
+      width: 100%;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .5rem;
+      margin-left: auto;
+    }
+
+    .tag {
+      padding: .35rem .8rem;
+      border-radius: 999px;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      background: #fff;
+      font-family: var(--font-sans);
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all .3s ease;
+    }
+
+    .tag.active {
+      background: rgba(64, 75, 105, 0.1);
+      border-color: var(--arben-blue);
+      color: var(--arben-blue);
+    }
+
+    /* Full-width feed — no sidebar */
+    .insights-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.2rem;
+      align-content: start;
+    }
+
+    .meta-line {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-family: var(--font-sans);
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .35rem;
+    }
+
+    .pill {
+      padding: .3rem .65rem;
+      border-radius: 999px;
+      background: rgba(64, 75, 105, 0.05);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      font-size: 0.8rem;
+      font-family: var(--font-sans);
+      color: var(--text-muted);
+    }
+
+    .research-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .research-grid ul {
+      padding-left: 1.1rem;
+      margin: 0;
+    }
+
+    .external::after {
+      content: "↗";
+      margin-left: 6px;
+      font-size: .9em;
+      opacity: .7;
+    }
+
+    @media (max-width:680px) {
+      .filter-bar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .tabs,
+      .tags {
+        width: 100%;
+        justify-content: flex-start;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Minimal header — logo only, no sales nav -->
+  <header id="header" class="scrolled">
+    <div class="container nav-container">
+      <a href="index.html" class="logo">
+        <img src="assets/stacked-wordmark.png" alt="The Arben Group">
+      </a>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <!-- HERO + BYLINES -->
+    <section class="hero writing-hero" aria-label="Writing">
+      <div class="container">
+        <p class="micro">Essays • Field Notes • Research Library</p>
+        <h1>Writing on leadership, culture, and resilience.</h1>
+        <p class="lead">Original work and curated research from the principals of The Arben Group. We publish what
+          we've learned building healthy, high-performing teams — written to be useful, not to be found.</p>
+
+        <div class="bylines">
+          <div class="byline">
+            <span class="name">Ben Harris</span>
+            <span class="role">Leadership · Culture · Operations</span>
+            <a href="mailto:bharris@thearbengroup.com">bharris@thearbengroup.com</a>
+          </div>
+          <div class="byline">
+            <span class="name">Arden Smith</span>
+            <span class="role">Clinical Services · Psychological Safety · Resilience</span>
+            <a href="mailto:asmith@thearbengroup.com">asmith@thearbengroup.com</a>
+          </div>
+        </div>
+
+        <div class="filter-bar" aria-label="Filters">
+          <div class="tabs" role="tablist" aria-label="Author">
+            <button class="tab active" role="tab" aria-selected="true" data-tab="all">All</button>
+            <button class="tab" role="tab" aria-selected="false" data-tab="arden">Arden</button>
+            <button class="tab" role="tab" aria-selected="false" data-tab="ben">Ben</button>
+            <button class="tab" role="tab" aria-selected="false" data-tab="research">Research</button>
+          </div>
+          <label class="search" for="search-input">
+            <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="11" cy="11" r="7" stroke="#94a3b8" fill="none" />
+              <line x1="16.65" y1="16.65" x2="22" y2="22" stroke="#94a3b8" />
+            </svg>
+            <input id="search-input" type="search" placeholder="Search topics, titles…" />
+          </label>
+          <div class="tags" aria-label="Topic tags">
+            <button class="tag" data-tag="leadership">Leadership</button>
+            <button class="tag" data-tag="culture">Culture</button>
+            <button class="tag" data-tag="retention">Retention</button>
+            <button class="tag" data-tag="resilience">Resilience</button>
+            <button class="tag" data-tag="clinical">Clinical</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEED -->
+    <section id="insights-feed">
+      <div class="container">
+        <div class="insights-grid" id="feed" aria-live="polite">
+          <article class="card" data-author="arden" data-tags="culture,retention">
+            <div class="meta-line">Arden Smith • Essay</div>
+            <h3><a href="#">When Values Become Habits</a></h3>
+            <p class="muted">Moving from posters to practice — rituals, norms, and cadence that keep values alive in
+              daily work.</p>
+            <div class="pill-row"><span class="pill">Culture</span><span class="pill">Retention</span></div>
+          </article>
+          <article class="card" data-author="ben" data-tags="leadership,resilience">
+            <div class="meta-line">Ben Harris • Brief</div>
+            <h3><a href="#">The Manager’s Keystone</a></h3>
+            <p class="muted">First-line leaders carry more load than we admit. How to support them without adding
+              friction.</p>
+            <div class="pill-row"><span class="pill">Leadership</span><span class="pill">Resilience</span></div>
+          </article>
+          <article class="card" data-author="research" data-tags="retention,culture">
+            <div class="meta-line">Research Library</div>
+            <h3><a href="#" class="external">Meta-Analysis: Drivers of Employee Retention</a></h3>
+            <p class="muted">Key predictors of stay/leave decisions and how leader behavior mediates intent to remain.
+            </p>
+            <div class="pill-row"><span class="pill">Retention</span><span class="pill">Culture</span></div>
+          </article>
+          <article class="card" data-author="arden" data-tags="clinical,resilience">
+            <div class="meta-line">Arden Smith • Field Note</div>
+            <h3><a href="#">Psychological Safety in Clinical Teams</a></h3>
+            <p class="muted">Brief interventions that reduce error risk and improve collaboration under stress.</p>
+            <div class="pill-row"><span class="pill">Clinical</span><span class="pill">Resilience</span></div>
+          </article>
+          <article class="card" data-author="ben" data-tags="leadership,culture">
+            <div class="meta-line">Ben Harris • Perspective</div>
+            <h3><a href="#">Decision Rights Without Drama</a></h3>
+            <p class="muted">Clarify who decides, who advises, and who is informed — and why it calms teams.</p>
+            <div class="pill-row"><span class="pill">Leadership</span><span class="pill">Culture</span></div>
+          </article>
+          <article class="card" data-author="research" data-tags="resilience,clinical">
+            <div class="meta-line">Research Library</div>
+            <h3><a href="#" class="external">Burnout Indicators and Team Performance</a></h3>
+            <p class="muted">What the literature says about recovery cycles, load distribution, and supervisor impact.
+            </p>
+            <div class="pill-row"><span class="pill">Resilience</span><span class="pill">Clinical</span></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESEARCH LIBRARY -->
+    <section class="strip" id="library">
+      <div class="container">
+        <h2>Research Library</h2>
+        <p class="muted">Curated external sources we reference often. Each link opens in a new tab.</p>
+        <div class="research-grid">
+          <div class="card">
+            <h3>Leadership & Teams</h3>
+            <ul class="muted">
+              <li><a href="#" class="external" target="_blank" rel="noopener">Leader Behaviors that Predict
+                  Retention</a></li>
+              <li><a href="#" class="external" target="_blank" rel="noopener">Psychological Safety and Error
+                  Reduction</a></li>
+              <li><a href="#" class="external" target="_blank" rel="noopener">Manager Coaching: Meta-Review</a></li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Culture & Engagement</h3>
+            <ul class="muted">
+              <li><a href="#" class="external" target="_blank" rel="noopener">Values Activation and Daily Habits</a>
+              </li>
+              <li><a href="#" class="external" target="_blank" rel="noopener">Engagement Drivers Across Sectors</a></li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Wellness & Resilience</h3>
+            <ul class="muted">
+              <li><a href="#" class="external" target="_blank" rel="noopener">Burnout: Indicators & Interventions</a>
+              </li>
+              <li><a href="#" class="external" target="_blank" rel="noopener">Recovery Cycles and Performance</a></li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Clinical & High-Stress Work</h3>
+            <ul class="muted">
+              <li><a href="#" class="external" target="_blank" rel="noopener">Trauma-Informed Leadership Essentials</a>
+              </li>
+              <li><a href="#" class="external" target="_blank" rel="noopener">De-escalation Training Outcomes</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <img src="assets/LettermarkBlue.png" alt="Arben" class="footer-logo"
+        style="margin: 0 auto 1.5rem auto; display: block;">
+      <p style="opacity: 0.85; text-align: center;">Published by Ben Harris &amp; Arden Smith.</p>
+      <p style="font-size: 0.85rem; text-align: center;">
+        <a href="mailto:bharris@thearbengroup.com" style="color: var(--arben-blue);">bharris@thearbengroup.com</a>
+        &nbsp;·&nbsp;
+        <a href="mailto:asmith@thearbengroup.com" style="color: var(--arben-blue);">asmith@thearbengroup.com</a>
+      </p>
+      <p style="font-size: 0.8rem; opacity: 0.5; text-align: center;">&copy; 2026 The Arben Group. All rights reserved.
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    // Header scroll effect
+    window.addEventListener('scroll', () => {
+      const header = document.getElementById('header');
+      header.classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    const feed = document.getElementById('feed');
+
+    function authorLabel(author) {
+      const map = { ben: 'Ben Harris', arden: 'Arden Smith', research: 'Research Library' };
+      return map[author] || author || 'Insight';
+    }
+
+    function entryUrl(entry) {
+      if (entry.url) return entry.url;
+      if (entry.pdf_key) return `/api/files/${entry.pdf_key.replace('pdfs/', '')}`;
+      return `article.html?id=${entry.id}`;
+    }
+
+    function isExternal(entry) {
+      return !!(entry.url || entry.pdf_key);
+    }
+
+    function createCard(entry) {
+      const article = document.createElement('article');
+      const tags = (entry.tags || '').split(',').map(t => t.trim()).filter(Boolean);
+      article.className = 'card api-entry';
+      article.dataset.author = entry.author || 'research';
+      article.dataset.tags = tags.join(',').toLowerCase();
+
+      const href = entryUrl(entry);
+      const ext = isExternal(entry);
+      const linkAttr = ext ? ` target="_blank" rel="noopener" class="external"` : '';
+      const typeLabel = entry.pdf_key ? `${entry.type} · PDF` : entry.type;
+
+      article.innerHTML = `
+        <div class="meta-line">${authorLabel(entry.author)} · ${typeLabel}</div>
+        <h3><a href="${href}"${linkAttr}>${entry.title}</a></h3>
+        <p class="muted">${entry.summary || ''}</p>
+        <div class="pill-row">${tags.map(t => `<span class="pill">${t}</span>`).join('')}</div>
+      `;
+      return article;
+    }
+
+    async function loadEntries() {
+      try {
+        const res = await fetch('/api/entries');
+        const entries = await res.json();
+        if (feed && entries.length) {
+          feed.querySelectorAll('article').forEach(el => el.remove());
+          entries.forEach(entry => feed.appendChild(createCard(entry)));
+          applyFilters();
+        }
+      } catch (err) {
+        console.error('Failed to load entries', err);
+      }
+    }
+
+    loadEntries();
+
+    // Filters
+    const tabs = document.querySelectorAll('.tab');
+    const searchInput = document.getElementById('search-input');
+    const tagButtons = document.querySelectorAll('.tag');
+
+    let activeTab = 'all';
+    let activeTag = null;
+    let query = '';
+
+    function applyFilters() {
+      const cards = feed ? feed.querySelectorAll('.card') : [];
+      cards.forEach(card => {
+        const author = card.dataset.author;
+        const tags = (card.dataset.tags || '').toLowerCase();
+        const text = (card.innerText || '').toLowerCase();
+        const tabOk = (activeTab === 'all') || (author === activeTab);
+        const tagOk = !activeTag || tags.includes(activeTag);
+        const qOk = !query || text.includes(query);
+        card.style.display = (tabOk && tagOk && qOk) ? 'flex' : 'none';
+      });
+    }
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        activeTab = tab.dataset.tab;
+        applyFilters();
+      });
+    });
+
+    tagButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (activeTag === btn.dataset.tag) {
+          activeTag = null;
+          btn.classList.remove('active');
+        } else {
+          tagButtons.forEach(b => b.classList.remove('active'));
+          activeTag = btn.dataset.tag;
+          btn.classList.add('active');
+        }
+        applyFilters();
+      });
+    });
+
+    if (searchInput) {
+      searchInput.addEventListener('input', (e) => {
+        query = e.target.value.trim().toLowerCase();
+        applyFilters();
+      });
+    }
+  </script>
+</body>
+
+</html>

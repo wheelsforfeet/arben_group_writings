@@ -1,0 +1,26 @@
+# OS junk
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Logs and databases
+*.log
+*.sqlite
+
+# NodeJS (if you ever add node in future)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Editor directories
+.idea/
+.vscode/
+*.swp
+
+# Development resources
+Antigravity/

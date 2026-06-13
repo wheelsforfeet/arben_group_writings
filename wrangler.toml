@@ -1,0 +1,11 @@
+name = "arben-writings"
+compatibility_date = "2024-01-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "arben-insights"
+database_id = "c3b97730-553f-40b4-b4d4-ff34af81983a"
+
+[[r2_buckets]]
+binding = "R2"
+bucket_name = "arben-assets"

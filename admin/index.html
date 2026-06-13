@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Arben Group | Admin</title>
+  <link rel="icon" type="image/png" href="../assets/LettermarkYellow.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Montserrat+Alternates:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    body { background: var(--parchment); }
+    main { padding-top: var(--space-xxl); padding-bottom: var(--space-lg); }
+
+    #login-screen {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #login-screen .card {
+      width: 100%;
+      max-width: 380px;
+      text-align: center;
+      align-items: center;
+    }
+    /* .card is flex-column; keep the logo at its natural ratio, not stretched */
+    #login-screen .card img { width: auto; align-self: center; }
+    #login-screen .card form { width: 100%; }
+    #login-screen h2 { margin-bottom: 1.5rem; }
+    #login-error { color: var(--error); font-size: 0.9rem; margin-top: .5rem; min-height: 1.2em; }
+
+    #app { display: none; }
+
+    .admin-layout {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 1.5rem;
+      align-items: start;
+    }
+
+    .stack { display: grid; gap: 1rem; }
+
+    .inline-fields {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+
+    .help { color: var(--text-muted); font-size: 0.85rem; margin-top: .3rem; }
+
+    .content-toggle { display: flex; gap: .5rem; margin-bottom: .75rem; }
+    .toggle-btn {
+      padding: .4rem 1rem;
+      border-radius: 999px;
+      border: 1px solid rgba(0,0,0,.1);
+      background: #fff;
+      font-family: var(--font-sans);
+      font-weight: 600;
+      font-size: .85rem;
+      cursor: pointer;
+      color: var(--text-muted);
+      transition: all .2s;
+    }
+    .toggle-btn.active {
+      background: var(--arben-blue);
+      color: #fff;
+      border-color: var(--arben-blue);
+    }
+
+    #body-section, #url-section, #pdf-section { display: none; }
+    #body-section.visible, #url-section.visible, #pdf-section.visible { display: block; }
+
+    .pdf-drop {
+      border: 2px dashed rgba(64,75,105,.25);
+      border-radius: 12px;
+      padding: 2rem 1rem;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color .2s;
+    }
+    .pdf-drop:hover, .pdf-drop.dragover { border-color: var(--arben-blue); }
+    .pdf-drop input[type="file"] { display: none; }
+    .pdf-name { font-size: .9rem; color: var(--arben-blue); margin-top: .5rem; font-weight: 600; }
+
+    .entry-row {
+      padding: .85rem 1rem;
+      border-radius: 12px;
+      background: rgba(64,75,105,.04);
+      border: 1px solid rgba(0,0,0,.05);
+    }
+    .entry-row h4 { margin: 0 0 .2rem; font-size: 1rem; }
+    .entry-meta { font-size: .8rem; color: var(--text-muted); font-family: var(--font-sans); margin-bottom: .4rem; }
+    .entry-actions { display: flex; gap: .5rem; margin-top: .5rem; }
+    .btn-sm {
+      padding: .3rem .75rem;
+      border-radius: 8px;
+      font-size: .8rem;
+      font-family: var(--font-sans);
+      font-weight: 600;
+      border: 1px solid rgba(0,0,0,.1);
+      cursor: pointer;
+      background: #fff;
+      color: var(--text-main);
+      transition: all .2s;
+    }
+    .btn-sm:hover { background: var(--arben-blue); color: #fff; border-color: var(--arben-blue); }
+    .btn-sm.danger:hover { background: var(--error); border-color: var(--error); }
+
+    .pill-row { display: flex; flex-wrap: wrap; gap: .3rem; margin-top: .4rem; }
+    .pill { padding: .25rem .6rem; border-radius: 999px; background: rgba(64,75,105,.07); font-size: .75rem; font-family: var(--font-sans); }
+
+    .entries-list { max-height: 600px; overflow-y: auto; display: grid; gap: .6rem; }
+    .entries-empty { color: var(--text-muted); font-size: .9rem; padding: 1rem 0; }
+
+    .signout {
+      font-size: .8rem;
+      color: var(--text-muted);
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: var(--font-sans);
+      padding: 0;
+      text-decoration: underline;
+    }
+
+    @media (max-width: 900px) {
+      .admin-layout { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Login Screen -->
+  <div id="login-screen">
+    <div class="card">
+      <img src="../assets/stacked-wordmark.png" alt="The Arben Group" style="height:48px;margin-bottom:1.5rem;">
+      <h2>Insights Admin</h2>
+      <form id="login-form" class="stack">
+        <div class="field">
+          <label for="password-input">Password</label>
+          <input id="password-input" type="password" placeholder="Enter admin password" required />
+        </div>
+        <button class="submit" type="submit">Sign In</button>
+        <p id="login-error"></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- Admin App -->
+  <div id="app">
+    <header id="header" class="scrolled">
+      <div class="container nav-container">
+        <a href="../index.html" class="logo">
+          <img src="../assets/stacked-wordmark.png" alt="The Arben Group">
+        </a>
+        <nav>
+          <ul>
+            <li><a href="../index.html">← Writing</a></li>
+            <li><button class="signout" id="signout-btn">Sign out</button></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main-content" class="container">
+      <div style="padding-bottom:1.5rem;">
+        <p class="micro">Admin • Insights</p>
+        <h1>Add an insight</h1>
+        <p class="lead">Articles, field notes, briefs, and white papers authored by Ben or Arden — or curated research.</p>
+      </div>
+
+      <div class="admin-layout">
+        <!-- Form -->
+        <div class="stack">
+          <div class="card">
+            <form id="entry-form" class="stack" autocomplete="off">
+              <div class="field">
+                <label for="title">Title</label>
+                <input id="title" name="title" type="text" placeholder="The Manager's Keystone" required />
+              </div>
+
+              <div class="inline-fields">
+                <div class="field">
+                  <label for="author">Author</label>
+                  <select id="author" name="author" required>
+                    <option value="ben">Ben Harris</option>
+                    <option value="arden">Arden Smith</option>
+                    <option value="research">Research Library</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="type">Type</label>
+                  <select id="type" name="type" required>
+                    <option value="Article">Article</option>
+                    <option value="Essay">Essay</option>
+                    <option value="Brief">Brief</option>
+                    <option value="White Paper">White Paper</option>
+                    <option value="Field Note">Field Note</option>
+                    <option value="Perspective">Perspective</option>
+                    <option value="Research">Research</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="summary">Summary</label>
+                <textarea id="summary" name="summary" rows="3" placeholder="A short description shown in the card on the Insights page." required></textarea>
+              </div>
+
+              <div class="field">
+                <label>Content</label>
+                <div class="content-toggle">
+                  <button type="button" class="toggle-btn active" data-mode="body">Write here</button>
+                  <button type="button" class="toggle-btn" data-mode="url">External link</button>
+                  <button type="button" class="toggle-btn" data-mode="pdf">Upload PDF</button>
+                </div>
+
+                <div id="body-section" class="visible">
+                  <textarea id="body" name="body" rows="10" placeholder="Paste or write the full article content here. Plain text or basic HTML accepted."></textarea>
+                  <div class="help">This will be displayed on the article reader page.</div>
+                </div>
+
+                <div id="url-section">
+                  <input id="url" name="url" type="url" placeholder="https://example.com/article" />
+                  <div class="help">Opens in a new tab from the Insights page.</div>
+                </div>
+
+                <div id="pdf-section">
+                  <div class="pdf-drop" id="pdf-drop">
+                    <input type="file" id="pdf-file" accept="application/pdf" />
+                    <div id="pdf-drop-label">
+                      <div style="font-size:1.5rem;margin-bottom:.4rem;">📄</div>
+                      <div style="font-family:var(--font-sans);font-weight:600;">Drop a PDF here or click to browse</div>
+                      <div class="help" style="margin-top:.3rem;">PDF only · Max 25 MB</div>
+                    </div>
+                    <div class="pdf-name" id="pdf-name"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="tags">Tags <span style="font-weight:400;color:var(--text-muted)">(comma separated)</span></label>
+                <input id="tags" name="tags" type="text" placeholder="leadership, culture, retention" />
+                <div class="help">Used for filtering on the Insights page. Common: leadership, culture, retention, resilience, clinical</div>
+              </div>
+
+              <button class="submit" type="submit" id="submit-btn">Publish</button>
+              <p id="form-status" class="form-status" aria-live="polite"></p>
+            </form>
+          </div>
+        </div>
+
+        <!-- Existing entries -->
+        <div class="stack">
+          <div class="card">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;">
+              <h3 style="margin:0;">Published</h3>
+              <button class="btn-sm" id="refresh-btn">Refresh</button>
+            </div>
+            <div class="entries-list" id="entries-list">
+              <p class="entries-empty">Loading…</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <div class="container">
+        <img src="../assets/LettermarkBlue.png" alt="Arben" class="footer-logo" style="margin:0 auto 1.5rem auto;display:block;">
+        <p style="opacity:.5;font-size:.8rem;text-align:center;">&copy; 2026 The Arben Group. All rights reserved.</p>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    const SESSION_KEY = 'arben_admin_token';
+    const API = '/api/entries';
+    const UPLOAD_API = '/api/upload';
+
+    // ── Auth ──────────────────────────────────────────────────────────────────
+    let token = sessionStorage.getItem(SESSION_KEY) || '';
+
+    function showApp() {
+      document.getElementById('login-screen').style.display = 'none';
+      document.getElementById('app').style.display = 'block';
+      loadEntries();
+    }
+
+    async function verifyToken(pw) {
+      // Verify by attempting a write and checking for 401
+      const res = await fetch(API, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${pw}` },
+        body: JSON.stringify({ _verify: true, title: '', author: 'ben', type: 'Article', summary: '' }),
+      });
+      // 400 = authenticated but invalid data — that's fine, password works
+      // 401 = wrong password
+      return res.status !== 401;
+    }
+
+    document.getElementById('login-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const pw = document.getElementById('password-input').value.trim();
+      const errEl = document.getElementById('login-error');
+      const btn = e.target.querySelector('button');
+      btn.disabled = true;
+      btn.textContent = 'Checking…';
+      errEl.textContent = '';
+
+      const ok = await verifyToken(pw);
+      if (ok) {
+        token = pw;
+        sessionStorage.setItem(SESSION_KEY, pw);
+        showApp();
+      } else {
+        errEl.textContent = 'Incorrect password.';
+        btn.disabled = false;
+        btn.textContent = 'Sign In';
+      }
+    });
+
+    document.getElementById('signout-btn').addEventListener('click', () => {
+      sessionStorage.removeItem(SESSION_KEY);
+      location.reload();
+    });
+
+    if (token) showApp();
+
+    // ── Content mode toggle ──────────────────────────────────────────────────
+    let contentMode = 'body';
+    document.querySelectorAll('.toggle-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        contentMode = btn.dataset.mode;
+        document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        ['body-section', 'url-section', 'pdf-section'].forEach(id => {
+          document.getElementById(id).classList.remove('visible');
+        });
+        document.getElementById(`${contentMode}-section`).classList.add('visible');
+      });
+    });
+
+    // ── PDF drag/drop ────────────────────────────────────────────────────────
+    let selectedFile = null;
+    const pdfDrop = document.getElementById('pdf-drop');
+    const pdfInput = document.getElementById('pdf-file');
+    const pdfName = document.getElementById('pdf-name');
+
+    pdfDrop.addEventListener('click', () => pdfInput.click());
+    pdfDrop.addEventListener('dragover', (e) => { e.preventDefault(); pdfDrop.classList.add('dragover'); });
+    pdfDrop.addEventListener('dragleave', () => pdfDrop.classList.remove('dragover'));
+    pdfDrop.addEventListener('drop', (e) => {
+      e.preventDefault();
+      pdfDrop.classList.remove('dragover');
+      const file = e.dataTransfer.files[0];
+      if (file?.type === 'application/pdf') setFile(file);
+    });
+    pdfInput.addEventListener('change', () => {
+      if (pdfInput.files[0]) setFile(pdfInput.files[0]);
+    });
+
+    function setFile(file) {
+      selectedFile = file;
+      pdfName.textContent = `✓ ${file.name} (${(file.size / 1024 / 1024).toFixed(1)} MB)`;
+    }
+
+    // ── Form submit ──────────────────────────────────────────────────────────
+    const entryForm = document.getElementById('entry-form');
+    const statusEl = document.getElementById('form-status');
+    const submitBtn = document.getElementById('submit-btn');
+
+    entryForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      statusEl.textContent = '';
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Publishing…';
+
+      try {
+        let pdfKey = null;
+
+        // Upload PDF if needed
+        if (contentMode === 'pdf') {
+          if (!selectedFile) throw new Error('Please select a PDF file.');
+          submitBtn.textContent = 'Uploading PDF…';
+          const fd = new FormData();
+          fd.append('file', selectedFile);
+          const upRes = await fetch(UPLOAD_API, {
+            method: 'POST',
+            headers: { 'Authorization': `Bearer ${token}` },
+            body: fd,
+          });
+          if (!upRes.ok) throw new Error('PDF upload failed.');
+          const upData = await upRes.json();
+          pdfKey = upData.key;
+        }
+
+        const tags = document.getElementById('tags').value
+          .split(',').map(t => t.trim()).filter(Boolean);
+
+        const payload = {
+          title: document.getElementById('title').value.trim(),
+          author: document.getElementById('author').value,
+          type: document.getElementById('type').value,
+          summary: document.getElementById('summary').value.trim(),
+          body: contentMode === 'body' ? (document.getElementById('body').value.trim() || null) : null,
+          url: contentMode === 'url' ? (document.getElementById('url').value.trim() || null) : null,
+          pdf_key: pdfKey,
+          tags,
+        };
+
+        submitBtn.textContent = 'Saving…';
+        const res = await fetch(API, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+          body: JSON.stringify(payload),
+        });
+
+        if (!res.ok) {
+          const err = await res.json();
+          throw new Error(err.error || 'Save failed.');
+        }
+
+        statusEl.textContent = '✓ Published.';
+        statusEl.style.color = 'var(--success)';
+        entryForm.reset();
+        selectedFile = null;
+        pdfName.textContent = '';
+        loadEntries();
+      } catch (err) {
+        statusEl.textContent = err.message;
+        statusEl.style.color = 'var(--error)';
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Publish';
+      }
+    });
+
+    // ── Load entries ─────────────────────────────────────────────────────────
+    async function loadEntries() {
+      const list = document.getElementById('entries-list');
+      list.innerHTML = '<p class="entries-empty">Loading…</p>';
+      try {
+        const res = await fetch(API);
+        const entries = await res.json();
+        renderEntries(entries);
+      } catch {
+        list.innerHTML = '<p class="entries-empty">Failed to load entries.</p>';
+      }
+    }
+
+    function renderEntries(entries) {
+      const list = document.getElementById('entries-list');
+      if (!entries.length) {
+        list.innerHTML = '<p class="entries-empty">No entries yet.</p>';
+        return;
+      }
+      list.innerHTML = '';
+      entries.forEach(entry => {
+        const div = document.createElement('div');
+        div.className = 'entry-row';
+        const tags = (entry.tags || '').split(',').filter(Boolean);
+        const date = new Date(entry.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        const authorMap = { ben: 'Ben Harris', arden: 'Arden Smith', research: 'Research Library' };
+        const contentHint = entry.pdf_key ? '📄 PDF' : entry.url ? '🔗 Link' : '📝 Article';
+
+        div.innerHTML = `
+          <h4>${entry.title}</h4>
+          <div class="entry-meta">${authorMap[entry.author] || entry.author} · ${entry.type} · ${date} · ${contentHint}</div>
+          <p class="muted" style="font-size:.85rem;margin:.2rem 0 0;">${entry.summary}</p>
+          ${tags.length ? `<div class="pill-row">${tags.map(t => `<span class="pill">${t}</span>`).join('')}</div>` : ''}
+          <div class="entry-actions">
+            <a class="btn-sm" href="${getEntryUrl(entry)}" target="_blank" rel="noopener">View</a>
+            <button class="btn-sm danger" data-id="${entry.id}">Delete</button>
+          </div>
+        `;
+        list.appendChild(div);
+      });
+
+      list.querySelectorAll('button[data-id]').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          if (!confirm('Delete this entry? This cannot be undone.')) return;
+          const res = await fetch(`${API}?id=${btn.dataset.id}`, {
+            method: 'DELETE',
+            headers: { 'Authorization': `Bearer ${token}` },
+          });
+          if (res.ok) loadEntries();
+        });
+      });
+    }
+
+    function getEntryUrl(entry) {
+      if (entry.url) return entry.url;
+      if (entry.pdf_key) return `/api/files/${entry.pdf_key.replace('pdfs/', '')}`;
+      return `/article.html?id=${entry.id}`;
+    }
+
+    document.getElementById('refresh-btn').addEventListener('click', loadEntries);
+
+    // Header scroll
+    window.addEventListener('scroll', () => {
+      document.getElementById('header')?.classList.toggle('scrolled', window.scrollY > 50);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Arben Group | Article</title>
+  <meta name="description" content="" id="meta-desc" />
+  <link rel="icon" type="image/png" href="assets/LettermarkYellow.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Montserrat+Alternates:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .article-hero {
+      padding-top: var(--space-xxl);
+      padding-bottom: var(--space-md);
+      background: radial-gradient(circle at 85% 0, rgba(240,190,70,.10), transparent 50%),
+                  linear-gradient(180deg, #fff 0%, var(--parchment) 100%);
+    }
+
+    .article-meta {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.25rem;
+    }
+
+    .author-badge {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      background: rgba(64,75,105,.07);
+      border: 1px solid rgba(64,75,105,.12);
+      border-radius: 999px;
+      padding: .35rem .85rem .35rem .5rem;
+      font-family: var(--font-sans);
+      font-size: .85rem;
+      font-weight: 600;
+    }
+
+    .author-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--arben-blue);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .75rem;
+      font-weight: 700;
+      font-family: var(--font-sans);
+      flex-shrink: 0;
+    }
+
+    .article-date { font-size: .85rem; color: var(--text-muted); font-family: var(--font-sans); }
+
+    .article-layout {
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    .article-body {
+      max-width: 680px;
+    }
+
+    .article-body h1 {
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      line-height: 1.25;
+      margin-bottom: 1.5rem;
+    }
+
+    .article-content {
+      font-family: var(--font-serif);
+      font-size: 1.05rem;
+      line-height: 1.85;
+      color: var(--text-main);
+    }
+
+    .article-content p { margin-bottom: 1.4em; }
+    .article-content h2 { font-family: var(--font-sans); margin: 2em 0 .75em; }
+    .article-content h3 { font-family: var(--font-sans); margin: 1.5em 0 .5em; }
+    .article-content ul, .article-content ol { padding-left: 1.4em; margin-bottom: 1.4em; }
+    .article-content li { margin-bottom: .4em; }
+    .article-content blockquote {
+      border-left: 3px solid var(--arben-gold);
+      margin: 1.5em 0;
+      padding: .5em 1.25em;
+      font-style: italic;
+      color: var(--text-muted);
+    }
+
+    .sidebar { position: sticky; top: 100px; display: grid; gap: 1rem; }
+
+    .pill-row { display: flex; flex-wrap: wrap; gap: .35rem; margin-top: .75rem; }
+    .pill { padding: .3rem .65rem; border-radius: 999px; background: rgba(64,75,105,.06); border: 1px solid rgba(0,0,0,.05); font-size: .8rem; font-family: var(--font-sans); color: var(--text-muted); }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      font-family: var(--font-sans);
+      font-size: .85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-decoration: none;
+      margin-bottom: 2rem;
+    }
+    .back-link:hover { color: var(--arben-blue); }
+
+    #not-found { display: none; text-align: center; padding: var(--space-xl) 0; }
+
+    @media (max-width: 860px) {
+      .article-layout { grid-template-columns: 1fr; }
+      .sidebar { position: static; }
+    }
+  </style>
+</head>
+
+<body>
+  <header id="header" class="scrolled">
+    <div class="container nav-container">
+      <a href="index.html" class="logo">
+        <img src="assets/stacked-wordmark.png" alt="The Arben Group">
+      </a>
+      <nav>
+        <ul>
+          <li><a href="index.html#problem">Problem</a></li>
+          <li><a href="index.html#approach">Approach</a></li>
+          <li><a href="index.html#services">Services</a></li>
+          <li><a href="insights.html">Insights</a></li>
+          <li><a href="index.html#contact" class="btn btn-primary" style="color:white;">Start a Conversation</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <div id="article-view">
+      <section class="article-hero">
+        <div class="container">
+          <a href="insights.html" class="back-link">← Back to Insights</a>
+          <div class="article-layout">
+            <div class="article-body">
+              <div class="article-meta">
+                <div class="author-badge">
+                  <div class="author-avatar" id="author-avatar"></div>
+                  <span id="author-name"></span>
+                </div>
+                <span id="article-type" class="pill"></span>
+                <span class="article-date" id="article-date"></span>
+              </div>
+              <h1 id="article-title">Loading…</h1>
+              <div class="pill-row" id="article-tags"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section style="padding: var(--space-lg) 1.5rem;">
+        <div class="container">
+          <div class="article-layout">
+            <div class="article-content" id="article-content"></div>
+            <aside class="sidebar">
+              <div class="card" id="author-card">
+                <h3>About the Author</h3>
+                <p class="muted" id="author-bio"></p>
+              </div>
+              <div class="card">
+                <h3>More Insights</h3>
+                <p class="muted">Explore more writing from the Arben Group team.</p>
+                <a class="btn" href="insights.html">View all</a>
+              </div>
+              <div class="card">
+                <h3>Work with us</h3>
+                <p class="muted">Questions about this piece or how it applies to your organization?</p>
+                <a class="btn btn-primary" href="index.html#contact" style="color:white;">Start a conversation</a>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div id="not-found" class="container">
+      <h2>Article not found</h2>
+      <p class="muted">This article may have been removed or the link is incorrect.</p>
+      <a class="btn" href="insights.html">Back to Insights</a>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <img src="assets/LettermarkBlue.png" alt="Arben" class="footer-logo" style="margin:0 auto 1.5rem auto;display:block;">
+      <p style="opacity:.7;text-align:center;">Stop Losing Your Best People to "Cracks" in the System.</p>
+      <p style="font-size:.8rem;opacity:.5;text-align:center;">&copy; 2026 The Arben Group. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    const AUTHOR_DATA = {
+      ben: {
+        name: 'Ben Harris',
+        initials: 'BH',
+        bio: 'Ben leads management services at The Arben Group — leadership development, culture design, and operational enablement for organizations navigating growth and change.',
+      },
+      arden: {
+        name: 'Arden Smith',
+        initials: 'AS',
+        bio: 'Arden leads clinical treatment services at The Arben Group — psychological safety frameworks, resilience systems, and trauma-informed organizational practice.',
+      },
+      research: {
+        name: 'Research Library',
+        initials: 'RL',
+        bio: 'Curated external research the Arben Group team references when building healthy, high-performing organizations.',
+      },
+    };
+
+    window.addEventListener('scroll', () => {
+      document.getElementById('header')?.classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    async function loadArticle() {
+      const params = new URLSearchParams(location.search);
+      const id = params.get('id');
+      if (!id) { showNotFound(); return; }
+
+      try {
+        const res = await fetch('/api/entries');
+        const entries = await res.json();
+        const entry = entries.find(e => e.id === id);
+        if (!entry) { showNotFound(); return; }
+        render(entry);
+      } catch {
+        showNotFound();
+      }
+    }
+
+    function render(entry) {
+      const author = AUTHOR_DATA[entry.author] || { name: entry.author, initials: '?', bio: '' };
+      const date = new Date(entry.created_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+      const tags = (entry.tags || '').split(',').filter(Boolean);
+
+      document.title = `${entry.title} | The Arben Group`;
+      document.getElementById('meta-desc').content = entry.summary;
+
+      document.getElementById('author-avatar').textContent = author.initials;
+      document.getElementById('author-name').textContent = author.name;
+      document.getElementById('article-type').textContent = entry.type;
+      document.getElementById('article-date').textContent = date;
+      document.getElementById('article-title').textContent = entry.title;
+      document.getElementById('author-bio').textContent = author.bio;
+
+      const tagsEl = document.getElementById('article-tags');
+      tags.forEach(t => {
+        const span = document.createElement('span');
+        span.className = 'pill';
+        span.textContent = t;
+        tagsEl.appendChild(span);
+      });
+
+      const contentEl = document.getElementById('article-content');
+      if (entry.body) {
+        // Detect HTML vs plain text
+        if (/<[a-z][\s\S]*>/i.test(entry.body)) {
+          contentEl.innerHTML = entry.body;
+        } else {
+          // Convert plain text to paragraphs
+          contentEl.innerHTML = entry.body
+            .split(/\n\n+/)
+            .map(p => `<p>${p.replace(/\n/g, '<br>')}</p>`)
+            .join('');
+        }
+      } else if (entry.url) {
+        contentEl.innerHTML = `<p class="muted">This piece is hosted externally.</p><a class="btn" href="${entry.url}" target="_blank" rel="noopener">Read the full article ↗</a>`;
+      } else if (entry.pdf_key) {
+        const pdfUrl = `/api/files/${entry.pdf_key.replace('pdfs/', '')}`;
+        contentEl.innerHTML = `<p class="muted">This piece is available as a PDF.</p><a class="btn" href="${pdfUrl}" target="_blank" rel="noopener">Open PDF ↗</a>`;
+      } else {
+        contentEl.innerHTML = `<p class="muted">Content coming soon.</p>`;
+      }
+    }
+
+    function showNotFound() {
+      document.getElementById('article-view').style.display = 'none';
+      document.getElementById('not-found').style.display = 'block';
+    }
+
+    loadArticle();
+  </script>
+</body>
+</html>
