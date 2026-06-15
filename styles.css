@@ -449,19 +449,15 @@ header {
   top: 0;
   width: 100%;
   z-index: 1000;
-  background: white;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  background: var(--arben-blue);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
   padding: 1rem 0;
   transition: all 0.3s ease;
 }
 
 header.scrolled {
-  /* No change needed, or remove if we want static look, but keeping it simple is fine. 
-     Actually, user said "white bar at the top", implying it's always there. 
-     The previous code had transparency that turned white on scroll. 
-     I will just make the base header white. */
-  background: white;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  background: var(--arben-blue);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 
 .nav-container {
@@ -486,7 +482,7 @@ nav ul {
 nav a {
   font-weight: 600;
   font-size: 0.95rem;
-  color: var(--arben-blue);
+  color: white;
   position: relative;
 }
 
