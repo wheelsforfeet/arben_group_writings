@@ -112,6 +112,13 @@
       border-radius: 14px;
       box-shadow: 0 1px 2px rgba(30, 37, 50, 0.04), 0 8px 24px rgba(30, 37, 50, 0.05);
       transition: transform 0.15s ease, box-shadow 0.15s ease;
+      position: relative;
+    }
+
+    .byline .bio-link {
+      position: absolute;
+      bottom: 0.85rem;
+      right: 1rem;
     }
 
     .byline:hover {
@@ -330,11 +337,13 @@
             <span class="name">Arden Smith</span>
             <span class="role">Clinical Services · Psychological Safety · Resilience</span>
             <a href="mailto:asmith@thearbengroup.com">asmith@thearbengroup.com</a>
+            <button class="bio-link" onclick="openBio('arden')">BIO</button>
           </div>
           <div class="byline">
             <span class="name">Ben Harris</span>
             <span class="role">Leadership · Culture · Operations</span>
             <a href="mailto:bharris@thearbengroup.com">bharris@thearbengroup.com</a>
+            <button class="bio-link" onclick="openBio('ben')">BIO</button>
           </div>
         </div>
 
@@ -372,14 +381,14 @@
             <h3><a href="#">When Values Become Habits</a></h3>
             <p class="muted">Moving from posters to practice — rituals, norms, and cadence that keep values alive in
               daily work.</p>
-            <div class="pill-row"><span class="pill">Culture</span><span class="pill">Retention</span><button class="bio-link" onclick="openBio(‘arden’)">BIO</button></div>
+            <div class="pill-row"><span class="pill">Culture</span><span class="pill">Retention</span></div>
           </article>
           <article class="card" data-author="ben" data-tags="leadership,resilience">
             <div class="meta-line">Ben Harris • Brief</div>
             <h3><a href="#">The Manager’s Keystone</a></h3>
             <p class="muted">First-line leaders carry more load than we admit. How to support them without adding
               friction.</p>
-            <div class="pill-row"><span class="pill">Leadership</span><span class="pill">Resilience</span><button class="bio-link" onclick="openBio(‘ben’)">BIO</button></div>
+            <div class="pill-row"><span class="pill">Leadership</span><span class="pill">Resilience</span></div>
           </article>
           <article class="card" data-author="research" data-tags="retention,culture">
             <div class="meta-line">Research Library</div>
@@ -392,13 +401,13 @@
             <div class="meta-line">Arden Smith • Field Note</div>
             <h3><a href="#">Psychological Safety in Clinical Teams</a></h3>
             <p class="muted">Brief interventions that reduce error risk and improve collaboration under stress.</p>
-            <div class="pill-row"><span class="pill">Clinical</span><span class="pill">Resilience</span><button class="bio-link" onclick="openBio(‘arden’)">BIO</button></div>
+            <div class="pill-row"><span class="pill">Clinical</span><span class="pill">Resilience</span></div>
           </article>
           <article class="card" data-author="ben" data-tags="leadership,culture">
             <div class="meta-line">Ben Harris • Perspective</div>
             <h3><a href="#">Decision Rights Without Drama</a></h3>
             <p class="muted">Clarify who decides, who advises, and who is informed — and why it calms teams.</p>
-            <div class="pill-row"><span class="pill">Leadership</span><span class="pill">Culture</span><button class="bio-link" onclick="openBio(‘ben’)">BIO</button></div>
+            <div class="pill-row"><span class="pill">Leadership</span><span class="pill">Culture</span></div>
           </article>
           <article class="card" data-author="research" data-tags="resilience,clinical">
             <div class="meta-line">Research Library</div>
@@ -527,14 +536,11 @@
       const linkAttr = ext ? ` target="_blank" rel="noopener" class="external"` : '';
       const typeLabel = entry.pdf_key ? `${entry.type} · PDF` : entry.type;
 
-      const bioLink = (entry.author === 'ben' || entry.author === 'arden')
-        ? `<button class="bio-link" onclick="openBio('${entry.author}')">BIO</button>`
-        : '';
       article.innerHTML = `
         <div class="meta-line">${authorLabel(entry.author)} · ${typeLabel}</div>
         <h3><a href="${href}"${linkAttr}>${entry.title}</a></h3>
         <p class="muted">${entry.summary || ''}</p>
-        <div class="pill-row">${tags.map(t => `<span class="pill">${t}</span>`).join('')}${bioLink}</div>
+        <div class="pill-row">${tags.map(t => `<span class="pill">${t}</span>`).join('')}</div>
       `;
       return article;
     }
